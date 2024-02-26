@@ -1,95 +1,170 @@
+"use client";
+import { Main } from "./styled";
 import Image from "next/image";
-import styles from "./page.module.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
+
+import { useWindowWidth } from "@react-hook/window-size";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const width = useWindowWidth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <></>;
+
+  const athletesContent = [
+    {
+      title: "CONNECTION",
+      description:
+        "Connect with coaches directly, you can ping coaches to view profile.",
+    },
+    {
+      title: "COLLABORATION",
+      description:
+        "Work with other student athletes to increase visability. When you share and like other players videos it will increase your visability as a player. This is the team work aspect to Surface 1.",
+    },
+    {
+      title: "GROWTH",
+      description:
+        "Resources and tools for you to get better as a student Athelte. Access to training classes, tutor sessions, etc",
+    },
+  ];
+
+  const playerContent = [
+    {
+      title: "CONNECTION",
+      description:
+        "Connect with talented athlete directly, you can watch their skills through video showreels directly from Surface 1.",
+    },
+    {
+      title: "COLLABORATION",
+      description:
+        "Work with recruiter to increase your chances of finding talented athlete.",
+    },
+    {
+      title: "GROWTH",
+      description: "Save your time, recruit proper athlets for your team.",
+    },
+  ];
+
+  if (!mounted) return <></>;
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <Main>
+      <div className="container">
+        <div className="content">
+          <h1>ATHLETES</h1>
+          {(width as number) >= 768 ? (
+            <div className="card-container">
+              {athletesContent.map((content, index) => (
+                <div className={`card card-${index}`} key={index}>
+                  <h2>
+                    <span className={`index index-${index}`}>{`0${
+                      index + 1
+                    }`}</span>
+                    {content.title}
+                  </h2>
+                  <p className={`description description-${index}`}>
+                    {content.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
+        <div className="image-container athletes">
+          <Image
+            src={
+              (width as number) >= 1440
+                ? "/athletes.png"
+                : (width as number) >= 768
+                ? "/athletes-tablet.png"
+                : "/athletes-mobile.png"
+            }
+            alt="athletes"
+            width="0"
+            height="0"
+            sizes="100vw"
+          />
+        </div>
+        {(width as number) <= 767 ? (
+          <Carousel showArrows={false} showStatus={false}>
+            {athletesContent.map((content, index) => (
+              <div className={`card card-${index}`} key={index}>
+                <h2>
+                  <span className={`index index-${index}`}>{`0${
+                    index + 1
+                  }`}</span>
+                  {content.title}
+                </h2>
+                <p className={`description description-${index}`}>
+                  {content.description}
+                </p>
+              </div>
+            ))}
+          </Carousel>
+        ) : null}
       </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <div className="container player">
+        <div className="content">
+          <h1 className="player">PLAYERS</h1>
+          {(width as number) >= 768 ? (
+            <div className="card-container">
+              {playerContent.map((content, index) => (
+                <div className={`card player card-${index}`} key={index}>
+                  <h2>
+                    <span className={`index player index-${index}`}>{`0${
+                      index + 1
+                    }`}</span>
+                    {content.title}
+                  </h2>
+                  <p className={`description description-${index}`}>
+                    {content.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+        <div className="image-container players">
+          <Image
+            src={
+              (width as number) >= 1440
+                ? "/basketball.png"
+                : (width as number) >= 768
+                ? "/basketball-tablet.png"
+                : "/basketball-mobile.png"
+            }
+            alt="basketball"
+            width="0"
+            height="0"
+            sizes="100vw"
+          />
+        </div>
+        {(width as number) <= 767 ? (
+          <Carousel showArrows={false} showStatus={false} className="player">
+            {playerContent.map((content, index) => (
+              <div className={`card card-${index}`} key={index}>
+                <h2>
+                  <span className={`index index-${index}`}>{`0${
+                    index + 1
+                  }`}</span>
+                  {content.title}
+                </h2>
+                <p className={`description description-${index}`}>
+                  {content.description}
+                </p>
+              </div>
+            ))}
+          </Carousel>
+        ) : null}
       </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </Main>
   );
 }
